@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Purchase Order",
+      "description": "Represents a retail purchase order",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string", "description": "Unique order identifier" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "customerName": { "type": "string" },
+        "customerVat": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "qty": { "type": "number" },
+              "unitPrice": { "type": "number" },
+              "vatRate": { "type": "number" },
+              "vatAmount": { "type": "number" },
+              "total": { "type": "number" }
+            }
+          }
+        },
+        "subTotal": { "type": "number" },
+        "totalVat": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "cashier": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "paid", "cancelled"] },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "paymentMethod": { "type": "string" },
+        "qrData": { "type": "string", "description": "Base64 encoded TLV for ZATCA" }
+      },
+      "required": ["orderNumber", "createdAt", "items", "grandTotal", "status"]
+    },
+    "Settings": {
+      "title": "Company Settings",
+      "description": "Configuration for core company profile details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "building": { "type": "string" },
+        "street": { "type": "string" },
+        "district": { "type": "string" },
+        "city": { "type": "string" },
+        "country": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "additionalNo": { "type": "string" },
+        "vatNumber": { "type": "string" },
+        "crn": { "type": "string" },
+        "otherId": { "type": "string" },
+        "phone": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of all orders"
+    },
+    "/settings/{settingId}": {
+      "schema": "Settings",
+      "description": "Global application settings"
+    }
+  }
+}
